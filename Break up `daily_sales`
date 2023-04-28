@@ -1,0 +1,61 @@
+###Replace the instance of ;,; in dayli_sales with other character
+daily_sales_replaced = daily_sales.replace(';,;', '.')
+print(daily_sales_replaced)
+
+###Split the string into a list of each individual transaction
+daily_sales_replaced = daily_sales_replaced.split(",")
+print(daily_sales_replaced)
+
+###Split each individual transaction into a list of its data points
+daily_transactions_split = []
+for transaction in daily_sales_replaced:
+  daily_transactions_split.append(transaction.split("."))
+print(daily_transactions_split)
+
+###Clean up the white space
+transactions_clean = []
+for transaction in daily_transactions_split:
+  new_transaction = [notes.strip() for notes in transaction]
+  transactions_clean.append(new_transaction)
+#print(transactions_clean)
+
+###Customers list
+customers = []
+sales = []
+thread_sold = []
+for items in transactions_clean:
+  customers.append(items[0])
+  sales.append(items[1])
+  thread_sold.append(items[3])
+'''
+print(customers)
+print(sales)
+print(thread_sold)
+'''
+###Value of the days sales
+total_sales = 0
+for sale in sales:
+  total_sales += int(sale.strip('$'))
+print(total_sales)
+
+###Number of thread sold in a day
+#print(thread_sold)
+thread_sold_split = []
+for items in thread_sold:
+  thread_sold_split.append(items.split('&'))
+print(thread_sold_split)
+
+#Function that count each color of thread
+def color_count(color):
+  counter = 0
+  for item in thread_sold_split:
+    if color in item:
+      counter += 1
+  return counter
+
+#print(color_count('blue'))
+
+colors = ['red','yellow','green','white','black','blue','purple']
+print("The total of each thread sold is:") 
+for color in colors:
+  print("- {thread}: {count}".format(thread = color , count = color_count(color)))
